@@ -19,6 +19,10 @@ BLACK = (0, 0, 0)
 RED = (200, 0, 0)
 BLUE = (0, 0, 200)
 
+font = pygame.font.SysFont(None, 36)
+score = 0
+game_over = False
+
 # Set up screen
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dodge the Blocks")
@@ -38,6 +42,8 @@ running = True
 while running:
     clock.tick(60)  # 60 FPS
     frame_count += 1
+    score += 1
+    BLOCK_SPEED = 5 + score // 500  # Increase speed every 500 points
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -66,15 +72,47 @@ while running:
     # Check collision
     for block in blocks:
         if player.colliderect(block):
-            print("Game Over!")
-            running = False
+            game_over = True
+            break  # exit for loop
+
 
     # Drawing
     screen.fill(WHITE)
     pygame.draw.rect(screen, RED, player)
     for block in blocks:
         pygame.draw.rect(screen, BLUE, block)
+    # Draw score
+    score_text = font.render(f"Score: {score}", True, BLACK)
+    screen.blit(score_text, (10, 10))
+    
+    # Check for game over
+    if game_over:
+        running = False
+        continue
+
     pygame.display.flip()
+    
+# Game Over screen
+screen.fill(WHITE)
+msg = font.render("Game Over!", True, RED)
+msg_rect = msg.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))
+screen.blit(msg, msg_rect)
+
+score_msg = font.render(f"Final Score: {score}", True, BLACK)
+score_rect = score_msg.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
+screen.blit(score_msg, score_rect)
+
+pygame.display.flip()
+
+# Wait for user to press a key or quit
+waiting = True
+while waiting:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            waiting = False
+        if event.type == pygame.KEYDOWN:
+            waiting = False
+
 
 pygame.quit()
 sys.exit()
