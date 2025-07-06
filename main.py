@@ -20,6 +20,7 @@ RED = (200, 0, 0)
 BLUE = (0, 0, 200)
 
 font = pygame.font.SysFont(None, 36)
+name_font = pygame.font.SysFont(None, 24)
 score = 0
 game_over = False
 
@@ -84,6 +85,12 @@ while running:
     # Draw score
     score_text = font.render(f"Score: {score}", True, BLACK)
     screen.blit(score_text, (10, 10))
+    
+    # Draw name and RU
+    name = name_font.render("Paulo Cesar Benatto Junior", True, BLACK)
+    ru = name_font.render("RU: 4575578", True, BLACK)
+    screen.blit(name, (WIDTH - 230, 10))
+    screen.blit(ru, (WIDTH - 230, 40))
     
     # Check for game over
     if game_over:
