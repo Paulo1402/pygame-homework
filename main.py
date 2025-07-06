@@ -4,12 +4,7 @@ import sys
 
 # Initialize Pygame
 pygame.init()
-
 pygame.mixer.init()
-pygame.mixer.music.load("assets/background.mp3")  # background music
-pygame.mixer.music.play(-1)  # loop forever
-
-hit_sound = pygame.mixer.Sound("assets/bump.wav")  # when the player is hit
 
 # Constants
 WIDTH, HEIGHT = 800, 600
@@ -33,14 +28,19 @@ name_font = pygame.font.SysFont(None, 24)
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Dodge the Blocks")
 
+# Game state
 game_over = False
 score = 0
 
 def run_game():
     global score, game_over
     
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.load("assets/background.mp3")  # background music
+    pygame.mixer.music.play(-1)  # loop forever
     
+    hit_sound = pygame.mixer.Sound("assets/bump.wav")  # when the player is hit
+    
+    # Reset game state
     score = 0
     game_over = False
 
@@ -94,7 +94,6 @@ def run_game():
             
                 game_over = True
                 break  # exit for loop
-
 
         # Drawing
         screen.fill(WHITE)
